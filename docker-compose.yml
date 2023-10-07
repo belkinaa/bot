@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  app:
+    build: ./app
+#    links:
+#      - db
+    restart: always
+    volumes:
+      - ./app:/app
+    expose:
+      - 5000
+#    environment:
+#      USER_FOR_DOCKER: "${USER_FOR_DOCKER}"
+#      PASSWORD_FOR_DOCKER: "${PASSWORD_FOR_DOCKER}"
+#    depends_on:
+#      - db
+    container_name: app_bot
+    command: python main.py
+
+  nginx:
+    volumes:
+      - ./nginx/server.crt:/etc/nginx/server.crt
+      - ./nginx/server.key:/etc/nginx/server.key
+    build: ./nginx
+    container_name: nginx_bot
+    restart: always
+    ports:
+      - 8082:443
+    depends_on:
+      - app
