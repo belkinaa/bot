@@ -1,12 +1,15 @@
+import os
+
 from aiogram import types, F, Router
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, InputFile, FSInputFile
 from aiogram.filters import Command
 from aiogram import F
 import kb
 import text
 from aiogram.fsm.context import FSMContext
 
-
+from app.messageHelp.RequirementsAplication import ReqApp
+from app.messageHelp.VerificationSettings import VERIFICATION_MESSAGE, VERIFICATION_MESSAGE2, VERIFICATION_MESSAGE3
 
 router = Router()
 
@@ -34,6 +37,29 @@ async def start_handler(msg: Message):
 async def menu(msg: Message):
     await msg.answer(text.menu, reply_markup=kb.menu)
 
+@router.message(F.text == "Помощь")
+@router.message(F.text == "ℹ️ Помощь")
+async def input_help_menu(msg: Message):
+    await msg.answer(text.help_menu, reply_markup=kb.help_menu)
+
+
+@router.callback_query(F.data == "get_help_menu")
+async def input_get_help_menu(clbck: CallbackQuery):
+    await clbck.message.answer('Какая у Вас проблема?', reply_markup=kb.help_menu)
+
+@router.callback_query(F.data == "disabled_slider")
+async def input_disabled_slider(clbck: CallbackQuery):
+    await clbck.message.answer(VERIFICATION_MESSAGE)
+    await clbck.message.answer_photo(FSInputFile('img/version.jpg'))
+    await clbck.message.answer(VERIFICATION_MESSAGE2)
+    await clbck.message.answer_photo(FSInputFile('img/PP_upd1.jpg'))
+    await clbck.message.answer_photo(FSInputFile('img/PP_upd2.jpg'))
+    await clbck.message.answer_photo(FSInputFile('img/PP_upd3.jpg'))
+    await clbck.message.answer(VERIFICATION_MESSAGE3)
+
+@router.callback_query(F.data == "requirements_slider")
+async def input_requirements_slider(clbck: CallbackQuery):
+    await clbck.message.answer(ReqApp)
 
 
 @router.message()
