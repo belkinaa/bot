@@ -8,8 +8,8 @@ import kb
 import text
 from aiogram.fsm.context import FSMContext
 
-from app.messageHelp.RequirementsAplication import ReqApp
-from app.messageHelp.VerificationSettings import VERIFICATION_MESSAGE, VERIFICATION_MESSAGE2, VERIFICATION_MESSAGE3
+from messageHelp.RequirementsAplication import ReqApp
+from messageHelp.VerificationSettings import VERIFICATION_MESSAGE, VERIFICATION_MESSAGE2, VERIFICATION_MESSAGE3
 
 router = Router()
 
